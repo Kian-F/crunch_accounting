@@ -1,64 +1,96 @@
 import React from 'react'
+import validate from '../functions/ValidateInputs'
+import useForm from '../hooks/useForm'
+import states from './models/states'
 
 const ContactForm = () => {
+  const { errors, handleChange, handleSubmit, values } = useForm(validate)
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h3>Contact Information</h3>
         <label>First Name</label>
-        <select>
+        <select name="nameTitle" onChange={handleChange} value={values.firstName}>
           <option value="">None</option>
           <option value="mrs">Mrs</option>
           <option value="mr">Mr</option>
           <option value="ms">Ms</option>
         </select>
-        <input type="text" name="firstName" placeholder="John" />
+        <input
+          name="firstName"
+          onChange={handleChange}
+          placeholder="John"
+          type="text"
+          value={values.firstName}
+          required
+        />
+
+        {errors.firstName && <p>{errors.firstName}</p>}
 
         <label>Last Name</label>
-        <input type="text" name="lastName" placeholder="Smith" />
+        <input name="lastName" onChange={handleChange} placeholder="Smith" type="text" value={values.lastName} />
+
+        {errors.lastName && <p>{errors.lastName}</p>}
 
         <label>Account Name</label>
-        <input type="text" name="accountName" placeholder="John's Joinery" />
+        <input
+          name="accountName"
+          onChange={handleChange}
+          placeholder="John's Joinery"
+          type="text"
+          value={values.accountName}
+        />
+
+        {errors.firstName && <p>{errors.firstName}</p>}
 
         <label>Company Name (optional)</label>
-        <input type="text" name="companyName" />
+        <input name="companyName" onChange={handleChange} type="text" value={values.companyName} />
 
         <label>Phone</label>
-        <input type="tel" name="phone" placeholder="02 123 456 78" />
+        <input name="phone" onChange={handleChange} placeholder="02 123 456 78" type="tel" value={values.phone} />
+
+        {errors.phone && <p>{errors.phone}</p>}
 
         <label>Fax (optional)</label>
-        <input type="tel" name="fax" placeholder="John's Joinery" />
+        <input name="fax" onChange={handleChange} placeholder="John's Joinery" type="tel" value={values.fax} />
 
         <label>Title (optional)</label>
-        <input type="text" name="title" placeholder="Owner" />
+        <input name="title" onChange={handleChange} placeholder="Owner" type="text" value={values.title} />
 
         <label>Email</label>
-        <input type="email" name="email" placeholder="sample@email.com" />
+        <input name="email" onChange={handleChange} placeholder="sample@email.com" type="email" value={values.email} />
+
+        {errors.email && <p>{errors.email}</p>}
 
         <label>Email Opt Out</label>
-        <input type="checkbox" name="emailOptOut" />
+        <input type="checkbox" name="emailOptOut" onChange={handleChange} value={!values.emailOptOut} />
 
         <h3>Address Information</h3>
 
         <label>Street No & Street</label>
-        <input type="text" name="address" placeholder="1, Elizabeth Street" />
+        <input
+          type="text"
+          name="address"
+          onChange={handleChange}
+          placeholder="1, Elizabeth Street"
+          value={values.street}
+        />
 
         <label>City</label>
-        <input type="text" name="city" placeholder="Sydney" />
+        <input type="text" name="city" onChange={handleChange} placeholder="Sydney" value={values.city} />
 
         <label>State</label>
-        <select>
-          <option value="nsw">New South Wales</option>
-          <option value="victoria">Victoria</option>
-          <option value="queensland">Queensland</option>
-          <option value="westernAustralia">Western Australia</option>
-          <option value="southAustralia">South Australia</option>
-          <option value="tasmania">Tasmania</option>
+        <select name="state" onChange={handleChange} value={values.state}>
+          {states.map((state) => (
+            <option value={state.value}>{state.label}</option>
+          ))}
         </select>
 
         <h3>Description Information</h3>
         <label>Description</label>
-        <textarea rows="4" cols="50" />
+        <textarea name="description" onChange={handleChange} value={values.description} />
+        <button type="submit">Save</button>
       </form>
     </div>
   )
